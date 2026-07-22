@@ -4,11 +4,6 @@ on:
   schedule:
     - cron: '0 */1 * * *'
   workflow_dispatch:
-    inputs:
-      force:
-        description: Force re-collect
-        type: boolean
-        default: false
 
 concurrency:
   group: Collect BestIPs
