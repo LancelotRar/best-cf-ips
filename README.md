@@ -4,7 +4,7 @@
 - 多个公开Cloudflare IP池 **聚合&去重&加地理标注**。  
 - 可接入 [cmliu/edgetunnel](https://github.com/cmliu/edgetunnel)-自定义订阅汇聚。  
 ## API：  
-- Raw: `https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ipv4.txt`  
+- Raw：`https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ipv4.txt`  
 - 免梯：`https://gh-proxy.org/https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ipv4.txt`   
 
 ## 感谢以下组织或团队的公开数据和尽心整理与测试      
