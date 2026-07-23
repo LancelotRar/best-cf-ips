@@ -14,7 +14,6 @@ SOURCES: dict[str, str] = {
     'https://www.wetest.vip/page/cloudfront/address_v4.html': 'WeTest',
     'https://api.uouin.com/cloudflare.html': 'UOUIN',
     'https://bestcf.pages.dev/xinyitang3/ipv4.txt': 'Mia',
-    'https://stock.hostmonit.com/CloudFlareYes': 'CFYES',
     'https://bestcf.pages.dev/tiancheng/all.txt': 'Tiancheng',
     'https://raw.githubusercontent.com/gslege/CloudflareIP/refs/heads/main/SG.txt': 'Gslege-SG', 
     'https://raw.githubusercontent.com/gslege/CloudflareIP/refs/heads/main/DE.txt': 'Gslege-DE',
