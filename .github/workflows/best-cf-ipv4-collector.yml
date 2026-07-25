@@ -36,6 +36,6 @@ jobs:
           git config user.email "Lancelot@example.com"
           git add best-cf-ipv4.txt
           git diff --cached --quiet && echo "No changes to commit" && exit 0
-          git commit -m "更新CF优选IP并添加地区 $(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M')"
+          git commit -m "Best CF ipv4 list updated $(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M')"
           git pull --rebase
           git push
