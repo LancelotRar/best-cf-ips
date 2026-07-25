@@ -1,7 +1,6 @@
 # best-cf-ipv4
-## 项目特点
-- 自动采集Cloudflare优选IPv4，每3小时更新。  
-- 多个公开Cloudflare IP池 **聚合&去重&加地理标注**。  
+## 项目功能
+- 为多个公开或开源Cloudflare优选IP项目进行**聚合&去重&加地理标注**，每3小时更新。  
 - 可接入 [cmliu/edgetunnel](https://github.com/cmliu/edgetunnel)-自定义订阅汇聚。  
 ## API：  
 - Raw：
