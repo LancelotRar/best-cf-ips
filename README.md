@@ -17,7 +17,7 @@ https://gh-proxy.org/https://raw.githubusercontent.com/LancelotRar/best-cf-ips/m
 - [WeTest](https://www.wetest.vip/page/cloudfront/address_v4.html)
 - [UOUIN](https://api.uouin.com/cloudflare.html)
 - Tiancheng
-- Mia
+- [Mia](https://t.me/MiaChatChannel)
 - [Gslege](https://github.com/gslege/CloudflareIP)
 - [IPDB](https://ipdb.api.030101.xyz/)
 - [VPS789](https://vps789.com/cfip/?remarks=ip)
