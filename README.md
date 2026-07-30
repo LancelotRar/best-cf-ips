@@ -16,7 +16,7 @@ https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ipv4.txt
 ```
 - 免梯：
 ```
-https://gh-proxy.org/https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ipv4.txt
+https://testingcf.jsdelivr.net/gh/LancelotRar/best-cf-ips@main/best-cf-ipv4.txt
 ```
 
 ## 感谢以下组织或团队的公开数据和尽心整理与测试      
