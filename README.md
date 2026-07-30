@@ -4,7 +4,7 @@
 - 可接入 [cmliu/edgetunnel](https://github.com/cmliu/edgetunnel)-自定义订阅汇聚。  
 
 ## 应用效果
-
+- 经代理客户端解析后，节点名称将显示**国家代码**以及**国旗**。
 <p align="center">
   <img src="src/good-job.png" alt="效果图">
 </p>
