@@ -1,7 +1,12 @@
 # best-cf-ipv4
 ## 项目功能
-- 为多个公开或开源Cloudflare优选IP项目进行**聚合&去重&加地理标注**，每3小时更新。  
+- 为多个公开或开源Cloudflare优选IP项目进行**聚合&去重&加地理标注&加国旗Unicode**，每3小时更新。  
 - 可接入 [cmliu/edgetunnel](https://github.com/cmliu/edgetunnel)-自定义订阅汇聚。  
+
+## 应用效果
+
+![效果图](src/good-job.png)
+
 ## API：  
 - Raw：
 ```
