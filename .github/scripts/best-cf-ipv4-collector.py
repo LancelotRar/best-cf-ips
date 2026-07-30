@@ -68,6 +68,12 @@ def extract_ipv4(text: str) -> set[str]:
     return ips
 
 
+def country_to_flag(code: str) -> str:
+    if len(code) != 2 or code == 'XX':
+        return ''
+    return chr(ord(code[0]) - 65 + 0x1F1E6) + chr(ord(code[1]) - 65 + 0x1F1E6)
+
+
 def query_location(session: requests.Session, ip: str) -> str:
     """Query country code for an IP via ipinfo.io, return 'XX' on failure."""
     try:
@@ -137,7 +143,7 @@ def main() -> int:
     with tmp.open('w') as f:
         f.write(f'bestips updated at#{timestamp}\n')
         for ip_port, location in entries.items():
-            f.write(f'{ip_port}#{location}\n')
+            f.write(f'{ip_port}#{location} {country_to_flag(location)}\n')
     tmp.replace(OUTPUT_FILE)
     print(f'\n{len(entries)} IPs written to {OUTPUT_FILE}')
     return 0
