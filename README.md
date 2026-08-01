@@ -4,6 +4,8 @@
 - 可接入 [cmliu/edgetunnel](https://github.com/cmliu/edgetunnel)-自定义订阅汇聚。  
 
 ## 应用效果
+- API内容
+
 ```txt
 #295 bestips updated at 2026-08-01 20:47
 104.17.212.191:443#US 🇺🇸
