@@ -70,4 +70,6 @@ https://testingcf.jsdelivr.net/gh/LancelotRar/best-cf-ips@main/best-cf-ipv4.txt
 - [VPS789](https://vps789.com/cfip/?remarks=ip)
 - [vvHan](https://cf.vvhan.com)
 - [https://ip.164746.xyz](https://ip.164746.xyz)
-- [ip2region](https://github.com/lionsoul2014/ip2region) - 离线 IP 地理位置查询库，用于国家代码与国旗标注
+
+## 感谢以下开源地理位置查询项目
+-  [ip2region](https://github.com/lionsoul2014/ip2region) - 离线 IP 地理位置查询库，用于国家代码与国旗标注
