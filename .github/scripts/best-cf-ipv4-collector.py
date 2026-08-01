@@ -99,13 +99,10 @@ def _ensure_xdb() -> None:
         return
     XDB_FILE.parent.mkdir(parents=True, exist_ok=True)
     print(f'Downloading {XDB_URL} ...')
-    sess = _session()
-    try:
+    with _session() as sess:
         resp = sess.get(XDB_URL, timeout=120)
         resp.raise_for_status()
         XDB_FILE.write_bytes(resp.content)
-    finally:
-        sess.close()
 
 
 _searcher = None

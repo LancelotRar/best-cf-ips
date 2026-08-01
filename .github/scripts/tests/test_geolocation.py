@@ -83,7 +83,10 @@ class TestEnsureXdb:
                 assert timeout == 120
                 return FakeResponse()
 
-            def close(self):
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc_val, exc_tb):
                 self.closed = True
 
         session = FakeSession()
@@ -105,7 +108,10 @@ class TestEnsureXdb:
             def get(self, url, timeout):
                 return FakeResponse()
 
-            def close(self):
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc_val, exc_tb):
                 pass
 
         monkeypatch.setattr(collector, '_session', lambda: FakeSession())
