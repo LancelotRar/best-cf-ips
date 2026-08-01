@@ -191,7 +191,7 @@ def main() -> int:
     tmp = OUTPUT_FILE.with_suffix('.tmp')
     timestamp = beijing_timestamp()
     with tmp.open('w', encoding='utf-8') as f:
-        f.write(f'bestips updated at#{timestamp}\n')
+        f.write(f'{len(entries)} bestips updated at#{timestamp}\n')
         for ip_port, location in entries.items():
             f.write(f'{ip_port}#{location} {country_to_flag(location)}\n')
     tmp.replace(OUTPUT_FILE)
