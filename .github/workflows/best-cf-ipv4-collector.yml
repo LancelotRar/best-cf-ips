@@ -15,7 +15,7 @@ permissions:
 jobs:
   collect-best-cf-ipv4:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
 
@@ -26,6 +26,9 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r .github/scripts/requirements.txt
+
+      - name: Install Playwright Chromium
+        run: python -m playwright install --with-deps chromium
 
       - name: Collect Best CF IPV4
         run: python3 .github/scripts/best-cf-ipv4-collector.py
