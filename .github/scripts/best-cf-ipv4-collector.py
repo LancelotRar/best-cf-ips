@@ -5,6 +5,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from curl_cffi import requests as cf_requests
 
@@ -13,22 +14,28 @@ try:
 except ImportError:
     sync_playwright = None
 
+if TYPE_CHECKING:
+    from playwright.sync_api import Browser
+
 
 SOURCES: dict[str, str] = {
     'https://www.wetest.vip/page/cloudfront/address_v4.html': 'WeTest',
     'https://api.uouin.com/cloudflare.html': 'UOUIN',
     'https://bestcf.pages.dev/xinyitang3/ipv4.txt': 'Mia',
     'https://bestcf.pages.dev/tiancheng/all.txt': 'Tiancheng',
-    'https://raw.githubusercontent.com/gslege/CloudflareIP/refs/heads/main/SG.txt': 'Gslege-SG', 
+    'https://raw.githubusercontent.com/gslege/CloudflareIP/refs/heads/main/SG.txt': 'Gslege-SG',
     'https://raw.githubusercontent.com/gslege/CloudflareIP/refs/heads/main/DE.txt': 'Gslege-DE',
-    'https://raw.githubusercontent.com/gslege/CloudflareIP/refs/heads/main/US.txt': 'Gslege-US',                 
+    'https://raw.githubusercontent.com/gslege/CloudflareIP/refs/heads/main/US.txt': 'Gslege-US',
     'https://raw.githubusercontent.com/ymyuuu/IPDB/refs/heads/main/BestCF/bestcfv4.txt': 'IPDB',
     'https://vps789.com/openApi/cfIpApi': 'VPS789',
     'https://api.4ce.cn/api/bestCFIP': 'vvhan',
 }
 
 PORT: str = '443'
-HEADERS: dict[str, str] = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0'}
+HEADERS: dict[str, str] = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
+                  '(KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0',
+}
 IPV4_PATTERN: str = r'\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b'
 LOCATION_URL: str = 'https://ipinfo.io/{ip}/country'
 OUTPUT_FILE: Path = Path('best-cf-ipv4.txt')
@@ -55,7 +62,8 @@ def fetch(session: cf_requests.Session, url: str, timeout: int = 15) -> str:
             last_err = e
             if attempt < MAX_RETRIES:
                 time.sleep(RETRY_BACKOFF_FACTOR ** attempt)
-    raise last_err if last_err else RuntimeError('unreachable')
+    assert last_err is not None
+    raise last_err
 
 
 def extract_ipv4(text: str) -> set[str]:
@@ -95,7 +103,7 @@ _browser = None
 _pw = None
 
 
-def _get_browser():
+def _get_browser() -> 'Browser':
     """Lazily start a reusable headless Chromium instance."""
     global _browser, _pw
     if sync_playwright is None:
@@ -124,11 +132,11 @@ def collect_ips(session: cf_requests.Session) -> set[str]:
     one valid IPv4 address; otherwise the next fetcher tier is tried.
     """
     all_ips: set[str] = set()
+    tiers = [
+        ('HTTP', lambda u: fetch(session, u)),
+        ('Browser', fetch_rendered),
+    ]
     for url, name in SOURCES.items():
-        tiers = [
-            ('HTTP', lambda u: fetch(session, u)),
-            ('Browser', fetch_rendered),
-        ]
         for label, fetcher in tiers:
             try:
                 ips = extract_ipv4(fetcher(url))
