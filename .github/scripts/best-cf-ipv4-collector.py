@@ -2,7 +2,6 @@ import ipaddress
 import re
 import sys
 import time
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -14,7 +13,15 @@ try:
 except ImportError:
     sync_playwright = None
 
+try:
+    from ip2region import util
+    from ip2region.searcher import new_with_buffer
+except ImportError:
+    util = None
+    new_with_buffer = None
+
 if TYPE_CHECKING:
+    from ip2region.searcher import Searcher
     from playwright.sync_api import Browser
 
 
@@ -38,8 +45,9 @@ HEADERS: dict[str, str] = {
                   '(KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0',
 }
 IPV4_PATTERN: str = r'\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b'
-LOCATION_URL: str = 'https://ipinfo.io/{ip}/country'
 OUTPUT_FILE: Path = Path('best-cf-ipv4.txt')
+XDB_URL: str = 'https://raw.githubusercontent.com/lionsoul2014/ip2region/v3.17.0/data/ip2region_v4.xdb'
+XDB_FILE: Path = Path(__file__).resolve().parent / 'data' / 'ip2region_v4.xdb'
 MAX_RETRIES: int = 3
 RETRY_BACKOFF_FACTOR: float = 2.0
 
@@ -85,14 +93,48 @@ def country_to_flag(code: str) -> str:
     return chr(ord(code[0]) - 65 + 0x1F1E6) + chr(ord(code[1]) - 65 + 0x1F1E6)
 
 
-def query_location(session: cf_requests.Session, ip: str) -> str:
-    """Query country code for an IP via ipinfo.io, return 'XX' on failure."""
+def _ensure_xdb() -> None:
+    """Download the offline xdb database if missing."""
+    if XDB_FILE.exists():
+        return
+    XDB_FILE.parent.mkdir(parents=True, exist_ok=True)
+    print(f'Downloading {XDB_URL} ...')
+    sess = _session()
     try:
-        resp = session.get(LOCATION_URL.format(ip=ip), timeout=10)
+        resp = sess.get(XDB_URL, timeout=120)
         resp.raise_for_status()
-        return resp.text.strip()
-    except cf_requests.exceptions.RequestException:
-        return 'XX'
+        XDB_FILE.write_bytes(resp.content)
+    finally:
+        sess.close()
+
+
+_searcher = None
+
+
+def _get_searcher() -> 'Searcher':
+    """Lazily create a full-memory xdb searcher."""
+    global _searcher
+    if new_with_buffer is None:
+        raise RuntimeError('ip2region not installed; run: pip install -r .github/scripts/requirements.txt')
+    if _searcher is None:
+        _ensure_xdb()
+        _searcher = new_with_buffer(
+            util.version_from_header(util.load_header_from_file(str(XDB_FILE))),
+            util.load_content_from_file(str(XDB_FILE)),
+        )
+    return _searcher
+
+
+def lookup_country(ip: str) -> str:
+    """Look up ISO-3166 country code offline via ip2region, return 'XX' on failure."""
+    try:
+        region = _get_searcher().search(ip)
+        code = region.split('|')[-1].strip()
+        if re.fullmatch(r'[A-Z]{2}', code):
+            return code
+    except Exception:
+        pass
+    return 'XX'
 
 
 def beijing_timestamp() -> str:
@@ -154,23 +196,12 @@ def collect_ips(session: cf_requests.Session) -> set[str]:
     return all_ips
 
 
-def _fetch_location(ip: str) -> tuple[str, str]:
-    """Query location for a single IP with its own session."""
-    sess = _session()
-    try:
-        return ip, query_location(sess, ip)
-    finally:
-        sess.close()
-
-
 def enrich_locations(ips: set[str]) -> dict[str, str]:
-    """Query geographic locations for all IPs concurrently."""
+    """Query geographic locations for all IPs via the offline database."""
+    _get_searcher()
     entries: dict[str, str] = {}
-    with ThreadPoolExecutor(max_workers=15) as pool:
-        fut_map = {pool.submit(_fetch_location, ip): ip for ip in ips}
-        for future in as_completed(fut_map):
-            ip, location = future.result()
-            entries[f'{ip}:{PORT}'] = location
+    for ip in ips:
+        entries[f'{ip}:{PORT}'] = lookup_country(ip)
     return entries
 
 
