@@ -26,6 +26,7 @@ https://testingcf.jsdelivr.net/gh/LancelotRar/best-cf-ips@main/best-cf-ipv4.txt
 - Tiancheng
 - [Mia](https://t.me/MiaChatChannel)
 - [Gslege](https://github.com/gslege/CloudflareIP)
-- [IPDB](https://ipdb.api.030101.xyz/)
+- [IPDB](https://ipdb.api.030101.xyz)
 - [VPS789](https://vps789.com/cfip/?remarks=ip)
-- [vvHan](https://cf.vvhan.com/)
+- [vvHan](https://cf.vvhan.com)
+- [https://ip.164746.xyz](https://ip.164746.xyz)
