@@ -15,7 +15,7 @@ permissions:
 jobs:
   collect-best-cf-ipv4:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
 
@@ -26,6 +26,16 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r .github/scripts/requirements.txt
+
+      - name: Get Playwright version
+        id: pw-version
+        run: echo "version=$(python -c 'import playwright; print(playwright.__version__)')" >> $GITHUB_OUTPUT
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.pw-version.outputs.version }}
 
       - name: Install Playwright Chromium
         run: python -m playwright install --with-deps chromium
