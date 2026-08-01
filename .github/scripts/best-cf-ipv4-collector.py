@@ -1,13 +1,17 @@
 import ipaddress
 import re
 import sys
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-import requests
-from requests.adapters import HTTPAdapter
-from urllib3.util import Retry
+from curl_cffi import requests as cf_requests
+
+try:
+    from playwright.sync_api import sync_playwright
+except ImportError:
+    sync_playwright = None
 
 
 SOURCES: dict[str, str] = {
@@ -32,28 +36,26 @@ MAX_RETRIES: int = 3
 RETRY_BACKOFF_FACTOR: float = 2.0
 
 
-def _session() -> requests.Session:
-    """Create a session with connection reuse and retry strategy."""
-    session = requests.Session()
+def _session() -> cf_requests.Session:
+    """Create a session with Chrome TLS fingerprint impersonation."""
+    session = cf_requests.Session(impersonate='chrome')
     session.headers.update(HEADERS)
-    adapter = HTTPAdapter(
-        max_retries=Retry(
-            total=MAX_RETRIES,
-            backoff_factor=RETRY_BACKOFF_FACTOR,
-            allowed_methods={'GET'},
-            status_forcelist={429, 500, 502, 503, 504},
-        )
-    )
-    session.mount('http://', adapter)
-    session.mount('https://', adapter)
     return session
 
 
-def fetch(session: requests.Session, url: str, timeout: int = 15) -> str:
+def fetch(session: cf_requests.Session, url: str, timeout: int = 15) -> str:
     """Fetch a URL with retry support and return response text."""
-    resp = session.get(url, timeout=timeout)
-    resp.raise_for_status()
-    return resp.text
+    last_err: Exception | None = None
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            resp = session.get(url, timeout=timeout)
+            resp.raise_for_status()
+            return resp.text
+        except Exception as e:
+            last_err = e
+            if attempt < MAX_RETRIES:
+                time.sleep(RETRY_BACKOFF_FACTOR ** attempt)
+    raise last_err if last_err else RuntimeError('unreachable')
 
 
 def extract_ipv4(text: str) -> set[str]:
@@ -74,13 +76,13 @@ def country_to_flag(code: str) -> str:
     return chr(ord(code[0]) - 65 + 0x1F1E6) + chr(ord(code[1]) - 65 + 0x1F1E6)
 
 
-def query_location(session: requests.Session, ip: str) -> str:
+def query_location(session: cf_requests.Session, ip: str) -> str:
     """Query country code for an IP via ipinfo.io, return 'XX' on failure."""
     try:
         resp = session.get(LOCATION_URL.format(ip=ip), timeout=10)
         resp.raise_for_status()
         return resp.text.strip()
-    except requests.RequestException:
+    except cf_requests.RequestException:
         return 'XX'
 
 
@@ -89,17 +91,57 @@ def beijing_timestamp() -> str:
     return (datetime.now(timezone.utc) + timedelta(hours=8)).strftime('%Y-%m-%d %H:%M')
 
 
-def collect_ips(session: requests.Session) -> set[str]:
-    """Collect IPv4 addresses from all sources."""
+_browser = None
+_pw = None
+
+
+def _get_browser():
+    """Lazily start a reusable headless Chromium instance."""
+    global _browser, _pw
+    if sync_playwright is None:
+        raise RuntimeError('playwright not installed; run: pip install playwright && playwright install chromium')
+    if _browser is None:
+        _pw = sync_playwright().start()
+        _browser = _pw.chromium.launch(headless=True)
+    return _browser
+
+
+def fetch_rendered(url: str, timeout: int = 30000) -> str:
+    """Render a JS page with headless Chromium and return the final HTML."""
+    context = _get_browser().new_context(user_agent=HEADERS['User-Agent'])
+    page = context.new_page()
+    try:
+        page.goto(url, wait_until='networkidle', timeout=timeout)
+        return page.content()
+    finally:
+        context.close()
+
+
+def collect_ips(session: cf_requests.Session) -> set[str]:
+    """Collect IPv4 from all sources, degrading from HTTP to headless browser.
+
+    A source is considered fetched successfully only when it yields at least
+    one valid IPv4 address; otherwise the next fetcher tier is tried.
+    """
     all_ips: set[str] = set()
     for url, name in SOURCES.items():
-        try:
-            text = fetch(session, url)
-            ips = extract_ipv4(text)
-            all_ips.update(ips)
-            print(f'  [{name}] {len(ips)} IPv4')
-        except requests.RequestException as e:
-            print(f'  [{name}] failed: {e}')
+        tiers = [
+            ('HTTP', lambda u: fetch(session, u)),
+            ('Browser', fetch_rendered),
+        ]
+        for label, fetcher in tiers:
+            try:
+                ips = extract_ipv4(fetcher(url))
+            except Exception as e:
+                print(f'  [{name}] {label} failed: {e}')
+                continue
+            if ips:
+                all_ips.update(ips)
+                print(f'  [{name}] {label}: {len(ips)} IPv4')
+                break
+            print(f'  [{name}] {label}: 0 IPv4, trying next tier')
+        else:
+            print(f'  [{name}] all fetchers failed')
     return all_ips
 
 
