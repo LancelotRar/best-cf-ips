@@ -46,7 +46,8 @@ HEADERS: dict[str, str] = {
 }
 IPV4_PATTERN: str = r'\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b'
 OUTPUT_FILE: Path = Path('best-cf-ipv4.txt')
-XDB_URL: str = 'https://raw.githubusercontent.com/lionsoul2014/ip2region/v3.17.0/data/ip2region_v4.xdb'
+XDB_REPO: str = 'lionsoul2014/ip2region'
+XDB_DEFAULT_TAG: str = 'v3.17.0'
 XDB_FILE: Path = Path(__file__).resolve().parent / 'data' / 'ip2region_v4.xdb'
 MAX_RETRIES: int = 3
 RETRY_BACKOFF_FACTOR: float = 2.0
@@ -93,15 +94,31 @@ def country_to_flag(code: str) -> str:
     return chr(ord(code[0]) - 65 + 0x1F1E6) + chr(ord(code[1]) - 65 + 0x1F1E6)
 
 
+def _latest_xdb_url() -> str:
+    """Resolve the latest upstream release tag and build the xdb download URL."""
+    try:
+        sess = _session()
+        try:
+            resp = sess.get(f'https://api.github.com/repos/{XDB_REPO}/releases/latest', timeout=15)
+            resp.raise_for_status()
+            tag = resp.json()['tag_name']
+        finally:
+            sess.close()
+        return f'https://raw.githubusercontent.com/{XDB_REPO}/{tag}/data/ip2region_v4.xdb'
+    except Exception:
+        return f'https://raw.githubusercontent.com/{XDB_REPO}/{XDB_DEFAULT_TAG}/data/ip2region_v4.xdb'
+
+
 def _ensure_xdb() -> None:
-    """Download the offline xdb database if missing."""
+    """Download the latest offline xdb database if missing."""
     if XDB_FILE.exists():
         return
     XDB_FILE.parent.mkdir(parents=True, exist_ok=True)
-    print(f'Downloading {XDB_URL} ...')
+    url = _latest_xdb_url()
+    print(f'Downloading {url} ...')
     sess = _session()
     try:
-        resp = sess.get(XDB_URL, timeout=120)
+        resp = sess.get(url, timeout=120)
         resp.raise_for_status()
         XDB_FILE.write_bytes(resp.content)
     finally:
