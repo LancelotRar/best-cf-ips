@@ -29,7 +29,9 @@ jobs:
 
       - name: Get Playwright version
         id: pw-version
-        run: echo "version=$(python -c 'from importlib.metadata import version; print(version(\"playwright\"))')" >> $GITHUB_OUTPUT
+        run: |
+          VERSION=$(python -c 'from importlib.metadata import version; print(version("playwright"))')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Cache Playwright browsers
         id: pw-cache
