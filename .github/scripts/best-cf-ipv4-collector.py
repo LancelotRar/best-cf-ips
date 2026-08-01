@@ -91,7 +91,7 @@ def query_location(session: cf_requests.Session, ip: str) -> str:
         resp = session.get(LOCATION_URL.format(ip=ip), timeout=10)
         resp.raise_for_status()
         return resp.text.strip()
-    except cf_requests.RequestException:
+    except cf_requests.exceptions.RequestException:
         return 'XX'
 
 
