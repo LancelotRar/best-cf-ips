@@ -2,5 +2,3 @@ __pycache__/
 *.py[cod]
 .github/scripts/data/
 .github/scripts/tests/
-.coverage
-best-cf-ipv4.txt
