@@ -72,4 +72,4 @@ https://testingcf.jsdelivr.net/gh/LancelotRar/best-cf-ips@main/best-cf-ipv4.txt
 - [https://ip.164746.xyz](https://ip.164746.xyz)
 
 ## 感谢以下开源地理位置查询项目
--  [ip2region](https://github.com/lionsoul2014/ip2region) - 离线 IP 地理位置查询库，用于国家代码与国旗标注
+-  [ip2region](https://github.com/lionsoul2014/ip2region) - 离线 IP 地理位置查询库，用于IP转国家代码。
