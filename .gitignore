@@ -3,3 +3,4 @@ __pycache__/
 .github/scripts/data/
 .github/scripts/tests/
 .coverage
+best-cf-ipv4.txt
