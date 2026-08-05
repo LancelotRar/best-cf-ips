@@ -4,7 +4,7 @@
 - 可接入 [cmliu/edgetunnel](https://github.com/cmliu/edgetunnel)-自定义订阅汇聚。  
 
 ## 应用效果
-- API内容示例，更新日期以实际API结果为准。
+- API内容**示例**，更新日期以实际API结果为准。**示例内容不要导入任何工具，请使用下方API。**
 
 ```txt
 # 295 bestips updated at 2026-08-01 20:47
