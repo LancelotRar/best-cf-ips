@@ -63,7 +63,7 @@ https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ipv4.txt
 https://testingcf.jsdelivr.net/gh/LancelotRar/best-cf-ips@main/best-cf-ipv4.txt
 ```
 
-## 感谢以下个人或组织的公开的优选IP筛选数据。
+## 感谢以下个人或组织的公开的优选IP筛选数据
 - [bestcf](https://bestcf.pages.dev)
 - [WeTest](https://www.wetest.vip/page/cloudfront/address_v4.html)
 - [UOUIN](https://api.uouin.com/cloudflare.html)
