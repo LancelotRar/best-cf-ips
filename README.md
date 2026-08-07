@@ -53,7 +53,7 @@
   <img src="src/good-job.png" alt="效果图">
 </p>
 
-## API：
+## API
 - Raw：
 ```
 https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ipv4.txt
