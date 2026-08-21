@@ -14,7 +14,7 @@ markmonitor.com:443#优选 | markmonitor.com
 store.epicgames.com:443#优选 | store.epicgames.com
 mycareer.verizon.com:443#优选 | mycareer.verizon.com
 onetrust.com:443#优选 | onetrust.com
-www.visa.cn:443#优选 | www.visa.cn
+www.visa.com:443#优选 | www.visa.com
 www.tpg.com:443#优选 | www.tpg.com
 www.wilshire.com:443#优选 | www.wilshire.com
 cloudflare-eth.com:443#优选 | cloudflare-eth.com
@@ -24,7 +24,6 @@ r2.dev:443#优选 | r2.dev
 pages.dev:443#优选 | pages.dev
 cdnjs.com:443#优选 | cdnjs.com
 cloudflare-ech.com:443#优选 | cloudflare-ech.com
-saas.sin.fan:443#优选 | saas.sin.fan
 skk.moe:443#优选 | skk.moe
 bestcf.030101.xyz:443#优选 | bestcf.030101.xyz
 cf.877774.xyz:443#优选 | cf.877774.xyz
