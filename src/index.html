@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Gargantua · 黑洞</title>
+<style>
+  html, body {
+    margin: 0; height: 100%; overflow: hidden;
+    background: #000;
+  }
+  #gl {
+    position: fixed; inset: 0;
+    width: 100%; height: 100%;
+    display: block;
+    cursor: grab;
+    touch-action: none;
+  }
+  #gl.dragging { cursor: grabbing; }
+  .hud {
+    position: fixed;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    color: rgba(232, 238, 255, 0.82);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    pointer-events: none;
+    user-select: none;
+    opacity: 0;
+    animation: fadeIn 1.8s ease forwards;
+    z-index: 10;
+  }
+  @keyframes fadeIn { to { opacity: 1; } }
+  #title {
+    top: 24px; left: 28px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(232,238,255,0.16);
+    animation-delay: 0.4s;
+  }
+  #title h1 {
+    margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.42em;
+  }
+  #title p {
+    margin: 6px 0 0; font-size: 9px; opacity: 0.5; letter-spacing: 0.3em;
+  }
+  #hints {
+    bottom: 22px; left: 28px;
+    font-size: 10px; line-height: 1.9; opacity: 0;
+    color: rgba(232,238,255,0.55);
+    animation-delay: 1.2s;
+  }
+  #hints b { font-weight: 600; color: rgba(232,238,255,0.85); }
+  #stats {
+    bottom: 22px; right: 28px;
+    font-size: 10px; text-align: right;
+    color: rgba(232,238,255,0.45);
+    animation-delay: 1.2s;
+  }
+  #err {
+    display: none;
+    position: fixed; inset: 0; z-index: 20;
+    place-items: center;
+    background: #000; color: #f88;
+    font: 13px/2 ui-monospace, Consolas, monospace;
+    text-align: center; padding: 2rem;
+    white-space: pre-wrap;
+  }
+</style>
+</head>
+<body>
+<canvas id="gl"></canvas>
+
+<div class="hud" id="title">
+  <h1>GARGANTUA</h1>
+  <p>SCHWARZSCHILD BLACK HOLE · REALTIME RAY TRACER</p>
+</div>
+<div class="hud" id="hints">
+  <b>拖拽</b> 旋转视角 &nbsp;&nbsp; <b>滚轮 / 双指</b> 缩放距离
+</div>
+<div class="hud" id="stats">FPS -- · --×-- · 质量 --</div>
+<div id="err"></div>
+
+<!-- ============================ 顶点着色器：全屏三角形 ============================ -->
+<script id="vs" type="x-shader/x-vertex">
+attribute vec2 aPos;
+void main() { gl_Position = vec4(aPos, 0.0, 1.0); }
+</script>
+
+<!-- ============================ 片元着色器：黑洞光线追踪 ============================
+     单位约定：史瓦西半径 rs = 1。
+     光线弯曲：对每条光线做数值积分，加速度 a = -1.5·h²·p/r⁵
+     （h = |p×v| 为守恒角动量），产生真实的引力透镜与光子环。
+-->
+<script id="fs" type="x-shader/x-fragment">
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
+
+uniform vec2  uRes;       // 画布像素尺寸
+uniform float uTime;      // 秒
+uniform vec3  uCamPos;    // 相机世界坐标
+uniform vec3  uCamRight;
+uniform vec3  uCamUp;
+uniform vec3  uCamFwd;
+uniform float uFovTan;    // 垂直半视场角的 tan 值
+uniform int   uSteps;     // 积分步数（画质档位）
+
+const float RS        = 1.0;   // 史瓦西半径（事件视界）
+const float DISK_IN   = 2.6;   // 吸积盘内缘（略小于 ISCO=3，视觉需要）
+const float DISK_OUT  = 11.0;  // 吸积盘外缘
+const float SKY_R     = 44.0;  // 光线逃逸半径
+const int   MAX_STEPS = 320;
+const float BEAM      = 0.55;  // 多普勒束流强度
+
+/* ---------------- 哈希与噪声 ---------------- */
+float hash13(vec3 p3) {
+  p3 = fract(p3 * 0.1031);
+  p3 += dot(p3, p3.zyx + 31.32);
+  return fract((p3.x + p3.y) * p3.z);
+}
+float vnoise(vec3 p) {
+  vec3 i = floor(p), f = fract(p);
+  f = f * f * (3.0 - 2.0 * f);
+  return mix(
+    mix(mix(hash13(i),                    hash13(i + vec3(1.,0.,0.)), f.x),
+        mix(hash13(i + vec3(0.,1.,0.)),   hash13(i + vec3(1.,1.,0.)), f.x), f.y),
+    mix(mix(hash13(i + vec3(0.,0.,1.)),   hash13(i + vec3(1.,0.,1.)), f.x),
+        mix(hash13(i + vec3(0.,1.,1.)),   hash13(i + vec3(1.,1.,1.)), f.x), f.y),
+    f.z);
+}
+float fbm(vec3 p) {
+  float s = 0.0, a = 0.5;
+  for (int i = 0; i < 4; i++) {
+    s += a * vnoise(p);
+    p = p * 2.03 + vec3(19.19);
+    a *= 0.5;
+  }
+  return s;
+}
+
+/* ---------------- 星空背景（被透镜弯曲的方向采样） ---------------- */
+vec3 starLayer(vec3 rd, float n, float prob, float size) {
+  vec3 sp = rd * n;
+  vec3 id = floor(sp);
+  vec3 f  = fract(sp) - 0.5;
+  float h = hash13(id);
+  if (h < 1.0 - prob) return vec3(0.0);
+  vec3 off = (vec3(hash13(id + 17.1), hash13(id + 31.7), hash13(id + 11.3)) - 0.5) * 0.7;
+  float d = length(f - off);
+  float core = smoothstep(size, 0.0, d);
+  float halo = smoothstep(size * 3.0, 0.0, d) * 0.25;
+  float mag  = pow(fract(h * 97.0), 3.0);                       // 星等分布：多数暗、少数亮
+  float tw   = 0.75 + 0.25 * sin(uTime * (1.0 + h * 3.0) + h * 61.0); // 闪烁
+  vec3 tint  = mix(vec3(0.72, 0.82, 1.00), vec3(1.00, 0.85, 0.66), fract(h * 53.0));
+  return tint * (core + halo) * (0.35 + 1.4 * mag) * tw;
+}
+vec3 skyColor(vec3 rd) {
+  vec3 col = vec3(0.0);
+  col += starLayer(rd,  48.0, 0.12, 0.090);
+  col += starLayer(rd,  96.0, 0.07, 0.062) * 0.80;
+  col += starLayer(rd, 192.0, 0.035, 0.046) * 0.55;
+  // 微弱星云
+  float n1 = fbm(rd * 2.6 + 3.1);
+  float n2 = fbm(rd * 6.2 - 7.7);
+  float neb = pow(max(n1 * n2 * 2.6 - 0.35, 0.0), 2.2);
+  col += mix(vec3(0.10, 0.13, 0.32), vec3(0.05, 0.20, 0.26), n2) * neb * 0.55;
+  return col;
+}
+
+/* ---------------- 吸积盘 ---------------- */
+// 差速旋转的流线纹理：φ 随时间按开普勒角速度 ω∝r^-1.5 平移，
+// 叠加多组整数频率正弦 → 在 φ 上严格周期、无接缝，且随时间剪切出螺旋带。
+float diskStreaks(float r, float phi, float t) {
+  float w  = 2.2 * pow(r, -1.5);
+  float a  = phi - w * t;
+  float lr = log(r);
+  float s = 0.0;
+  s += 0.50 * sin(a *  2.0 - lr *  9.0 + t * 0.35);
+  s += 0.42 * sin(a *  3.0 + lr * 15.0 - t * 0.55 + 2.1);
+  s += 0.30 * sin(a *  5.0 - lr * 24.0 + t * 0.85 + 4.0);
+  s += 0.22 * sin(a *  8.0 + lr * 36.0 - t * 1.25 + 1.2);
+  s += 0.16 * sin(a * 13.0 - lr * 54.0 + t * 1.80 + 3.3);
+  s += 0.10 * sin(a * 21.0 + lr * 83.0 - t * 2.40 + 5.1);
+  return s * 0.5 + 0.5;
+}
+// 温度色带 x: 0=内缘炽白 … 1=外缘暗红
+vec3 diskRamp(float x) {
+  vec3 hot = vec3(1.35, 1.22, 1.02);
+  vec3 mid = vec3(1.30, 0.62, 0.20);
+  vec3 outc= vec3(0.50, 0.12, 0.03);
+  return x < 0.38 ? mix(hot, mid, x / 0.38)
+                  : mix(mid, outc, (x - 0.38) / 0.62);
+}
+// q: 盘面交点  vdir: 该处光子行进方向(单位化)  alpha: 不透明度
+vec3 diskShade(vec3 q, vec3 vdir, out float alpha) {
+  float r   = length(q.xz);
+  float phi = atan(q.z, q.x);
+  float x   = clamp((r - DISK_IN) / (DISK_OUT - DISK_IN), 0.0, 1.0);
+
+  // 径向包络：内外缘柔和过渡
+  float env = smoothstep(DISK_IN, DISK_IN + 0.55, r)
+            * (1.0 - smoothstep(DISK_OUT - 2.8, DISK_OUT, r));
+
+  float st   = diskStreaks(r, phi, uTime);
+  float dens = env * (0.28 + 0.72 * st * st);
+
+  vec3  base   = diskRamp(x);
+  float bright = (0.55 + 1.1 * x) * (0.55 + 1.5 * st);
+  bright *= 1.0 + 3.2 * exp(-(r - DISK_IN) * 1.5);   // 内缘高温增亮
+
+  float gr = sqrt(max(1.0 - RS / r, 0.04));           // 引力红移
+  bright *= gr;
+
+  // 相对论性束流（多普勒增亮）：接近观察者的一侧显著更亮更偏蓝白
+  vec3  tangent = normalize(vec3(-q.z, 0.0, q.x));
+  float mu  = dot(tangent, vdir);
+  float be2 = BEAM * BEAM;
+  float D   = 1.0 / (sqrt(1.0 - be2) * (1.0 + BEAM * mu));
+  D = clamp(D, 0.35, 2.4);
+  bright *= pow(D, 2.2);
+  base = mix(base, vec3(0.95, 1.02, 1.25), clamp((D - 1.0) * 0.5, 0.0, 0.45));
+
+  alpha = clamp(dens * 1.6, 0.0, 1.0);
+  return base * dens * bright;
+}
+
+/* ---------------- 主渲染：光线弯曲积分 ---------------- */
+void main() {
+  vec2 ndc = (gl_FragCoord.xy / uRes) * 2.0 - 1.0;
+  ndc.x *= uRes.x / uRes.y;
+
+  vec3 ro = uCamPos;
+  vec3 rd = normalize(uCamRight * (ndc.x * uFovTan)
+                    + uCamUp    * (ndc.y * uFovTan)
+                    + uCamFwd);
+
+  vec3  p = ro;
+  vec3  v = rd;
+  vec3  Lv = cross(p, v);
+  float h2 = dot(Lv, Lv);          // 守恒角动量平方
+
+  vec3  col = vec3(0.0);
+  float T   = 1.0;                 // 透射率（前向合成）
+  bool  captured = false;
+  bool  escaped  = false;
+  vec3  prev = p;
+
+  for (int i = 0; i < MAX_STEPS; i++) {
+    if (i >= uSteps) break;
+
+    float r2 = dot(p, p);
+    if (r2 < RS * RS) { captured = true; break; }                 // 落入事件视界
+    if (r2 > SKY_R * SKY_R && dot(p, v) > 0.0) { escaped = true; break; }
+
+    float r  = sqrt(r2);
+    float dt = min(0.045 + 0.16 * (r - RS), 1.1);                 // 近密远疏步长
+
+    prev = p;
+    vec3 acc = -1.5 * h2 * p / (r2 * r2 * r);                     // 引力致偏折
+    v += acc * dt;
+    p += v * dt;
+
+    // 穿越赤道面 → 与吸积盘求交（线性插值交点）
+    if (prev.y * p.y < 0.0) {
+      float f  = prev.y / (prev.y - p.y);
+      vec3 hp = mix(prev, p, f);
+      float hr = length(hp.xz);
+      if (hr > DISK_IN && hr < DISK_OUT) {
+        float a;
+        vec3 em = diskShade(hp, normalize(v), a);
+        col += T * em;
+        T *= 1.0 - a * 0.92;
+        if (T < 0.02) break;
+      }
+    }
+  }
+
+  if (escaped) {
+    // 用弯曲后的最终方向采样星空 → 星光被引力弯曲成爱因斯坦环
+    col += T * skyColor(normalize(v));
+  }
+  // captured 或步数耗尽（困于光子球附近）→ 保持黑暗阴影
+
+  // 曝光 + 色调映射 + gamma
+  col *= 1.15;
+  col = vec3(1.0) - exp(-col);
+  col = pow(col, vec3(1.0 / 2.2));
+
+  // 轻微暗角
+  float vg = 1.0 - 0.26 * dot(ndc * 0.55, ndc * 0.55);
+  col *= clamp(vg, 0.0, 1.0);
+
+  gl_FragColor = vec4(col, 1.0);
+}
+</script>
+
+<!-- ============================ 主程序 ============================ -->
+<script>
+/*__JS_START__*/
+'use strict';
+(function () {
+
+  /* ---------- WebGL 初始化 ---------- */
+  const canvas = document.getElementById('gl');
+  const errBox = document.getElementById('err');
+  const gl = canvas.getContext('webgl', {
+        antialias: false, depth: false, stencil: false,
+        alpha: false, powerPreference: 'high-performance'
+      })
+      || canvas.getContext('experimental-webgl');
+
+  function fatal(msg) {
+    errBox.style.display = 'grid';
+    errBox.textContent = msg;
+    throw new Error(msg);
+  }
+  if (!gl) fatal('当前浏览器不支持 WebGL，无法渲染黑洞。');
+
+  function compile(type, src) {
+    const sh = gl.createShader(type);
+    gl.shaderSource(sh, src);
+    gl.compileShader(sh);
+    if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) {
+      fatal('着色器编译失败：\n' + gl.getShaderInfoLog(sh));
+    }
+    return sh;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, compile(gl.VERTEX_SHADER,   document.getElementById('vs').textContent));
+  gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, document.getElementById('fs').textContent));
+  gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+    fatal('程序链接失败：' + gl.getProgramInfoLog(prog));
+  }
+  gl.useProgram(prog);
+
+  // 全屏三角形
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+  const locPos = gl.getAttribLocation(prog, 'aPos');
+  gl.enableVertexAttribArray(locPos);
+  gl.vertexAttribPointer(locPos, 2, gl.FLOAT, false, 0, 0);
+
+  const U = {};
+  ['uRes','uTime','uCamPos','uCamRight','uCamUp','uCamFwd','uFovTan','uSteps']
+    .forEach(n => U[n] = gl.getUniformLocation(prog, n));
+
+  /* ---------- 相机状态（轨道视角） ---------- */
+  const view   = { yaw: 0.60, pitch: 0.10, dist: 15.0 };
+  const target = { yaw: 0.60, pitch: 0.10, dist: 15.0 };
+  const LIMITS = { minPitch: -1.45, maxPitch: 1.45, minDist: 5.5, maxDist: 26.0 };
+  let lastInteract = performance.now();
+
+  function clampTargets() {
+    target.pitch = Math.min(LIMITS.maxPitch, Math.max(LIMITS.minPitch, target.pitch));
+    target.dist  = Math.min(LIMITS.maxDist,  Math.max(LIMITS.minDist,  target.dist));
+  }
+  function interact() { lastInteract = performance.now(); }
+
+  /* ---------- 输入：拖拽旋转 / 滚轮缩放 / 触摸双指捏合 ---------- */
+  const pointers = new Map();
+  let pinchDist = null;
+
+  canvas.addEventListener('pointerdown', e => {
+    canvas.setPointerCapture(e.pointerId);
+    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    pinchDist = null;
+    canvas.classList.add('dragging');
+    interact();
+  });
+  canvas.addEventListener('pointermove', e => {
+    if (!pointers.has(e.pointerId)) return;
+    const pt = pointers.get(e.pointerId);
+    const dx = e.clientX - pt.x, dy = e.clientY - pt.y;
+    pt.x = e.clientX; pt.y = e.clientY;
+
+    if (pointers.size === 1) {
+      target.yaw   -= dx * 0.005;
+      target.pitch -= dy * 0.005;
+    } else if (pointers.size === 2) {
+      const pts = [...pointers.values()];
+      const len = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+      if (pinchDist > 0) target.dist *= pinchDist / len;
+      pinchDist = len;
+    }
+    clampTargets();
+    interact();
+  });
+  const releasePointer = e => {
+    pointers.delete(e.pointerId);
+    pinchDist = null;
+    if (!pointers.size) canvas.classList.remove('dragging');
+  };
+  canvas.addEventListener('pointerup', releasePointer);
+  canvas.addEventListener('pointercancel', releasePointer);
+
+  window.addEventListener('wheel', e => {
+    e.preventDefault();
+    target.dist *= Math.exp(e.deltaY * 0.0011);
+    clampTargets();
+    interact();
+  }, { passive: false });
+
+  window.addEventListener('contextmenu', e => e.preventDefault());
+
+  /* ---------- 自适应画质档位 ---------- */
+  const TIERS = [
+    { scale: 1.00, steps: 200, label: '高' },
+    { scale: 0.80, steps: 160, label: '中' },
+    { scale: 0.66, steps: 128, label: '低' },
+    { scale: 0.50, steps: 100, label: '极低' },
+  ];
+  let tier = 0;
+  let frameMsAvg = 16;
+  let lastQualityCheck = performance.now();
+
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width  = Math.max(1, Math.round(innerWidth  * dpr * TIERS[tier].scale));
+    canvas.height = Math.max(1, Math.round(innerHeight * dpr * TIERS[tier].scale));
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.uniform2f(U.uRes, canvas.width, canvas.height);
+    gl.uniform1i(U.uSteps, TIERS[tier].steps);
+  }
+  window.addEventListener('resize', resize);
+
+  function adaptQuality(nowMs, frameMs) {
+    frameMsAvg = frameMsAvg * 0.95 + frameMs * 0.05; // 指数滑动平均
+    if (nowMs - lastQualityCheck < 2000) return;
+    lastQualityCheck = nowMs;
+    if (frameMsAvg > 34 && tier < TIERS.length - 1) {
+      tier++; resize();                              // 卡顿 → 降档
+    } else if (frameMsAvg < 15 && tier > 0) {
+      tier--; resize();                              // 富余 → 升档
+    }
+  }
+
+  /* ---------- 统计面板 ---------- */
+  const statsEl = document.getElementById('stats');
+  let fpsFrames = 0, fpsLast = performance.now(), fpsValue = 0;
+
+  /* ---------- 渲染循环 ---------- */
+  const FOV_TAN = Math.tan(35 * Math.PI / 180); // 垂直视场约 70°
+  let prevT = performance.now();
+
+  function cross(a, b) {
+    return [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
+  }
+  function norm(v) {
+    const l = Math.hypot(v[0], v[1], v[2]) || 1;
+    return [v[0]/l, v[1]/l, v[2]/l];
+  }
+
+  function frame(now) {
+    requestAnimationFrame(frame);
+    const dtSec = Math.min((now - prevT) / 1000, 0.05);
+    prevT = now;
+
+    // 闲置 3.5s 后缓慢自动环绕
+    if (now - lastInteract > 3500) target.yaw += 0.06 * dtSec;
+
+    // 阻尼趋近目标视角
+    const k = 1 - Math.exp(-dtSec * 6.5);
+    view.yaw   += (target.yaw   - view.yaw)   * k;
+    view.pitch += (target.pitch - view.pitch) * k;
+    view.dist  += (target.dist  - view.dist)  * k;
+
+    // 球坐标 → 相机基向量（看向原点）
+    const cp = Math.cos(view.pitch), sp = Math.sin(view.pitch);
+    const eye = [
+      view.dist * cp * Math.sin(view.yaw),
+      view.dist * sp,
+      view.dist * cp * Math.cos(view.yaw),
+    ];
+    const fwd   = norm([-eye[0], -eye[1], -eye[2]]);
+    const right = norm(cross(fwd, [0, 1, 0]));
+    const up    = cross(right, fwd);
+
+    const t = (now / 1000) % 7200; // 控制时间大小以维持浮点精度
+
+    gl.uniform1f(U.uTime, t);
+    gl.uniform3fv(U.uCamPos,   eye);
+    gl.uniform3fv(U.uCamRight, right);
+    gl.uniform3fv(U.uCamUp,    up);
+    gl.uniform3fv(U.uCamFwd,   fwd);
+    gl.uniform1f(U.uFovTan, FOV_TAN);
+
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+    // 性能统计与自适应降质
+    const frameMs = now - (frame._last || now); frame._last = now;
+    adaptQuality(now, Math.max(frameMs, dtSec * 1000));
+
+    fpsFrames++;
+    if (now - fpsLast >= 500) {
+      fpsValue = Math.round(fpsFrames * 1000 / (now - fpsLast));
+      fpsFrames = 0; fpsLast = now;
+      statsEl.textContent =
+        `FPS ${fpsValue} · ${canvas.width}×${canvas.height} · 质量 ${TIERS[tier].label}`;
+    }
+  }
+
+  resize();
+  requestAnimationFrame(frame);
+})();
+/*__JS_END__*/
+</script>
+</body>
+</html>
