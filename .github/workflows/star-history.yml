@@ -1,0 +1,26 @@
+name: Star History
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  star-history:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: carsteneu/mystarhistory@v1.3.5
+        with:
+          repos: ${{ github.repository }}
+          branch: ${{ github.ref_name }}
+          output-dir: src
+          token: ${{ secrets.STAR_HISTORY_TOKEN }}
+        # Workaround: the runner injects hyphenated INPUT_OUTPUT-DIR, but
+        # action.py reads the underscore variant INPUT_OUTPUT_DIR, so the
+        # output-dir input is silently ignored in v1.3.5. Set it directly.
+        env:
+          INPUT_OUTPUT_DIR: src

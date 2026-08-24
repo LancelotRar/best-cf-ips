@@ -1,0 +1,39 @@
+__pycache__/
+*.py[cod]
+.github/scripts/data/
+.github/scripts/tests/
+tests/
+
+# Local agent and tooling state
+.claude/
+.codegraph/
+.omo/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local environments and secrets
+.env
+.env.*
+!.env.example
+
+# IDE and operating-system files
+.idea/
+.vscode/
+.vs/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs, temporary files, and build output
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+build/
+dist/
+*.egg-info/
+coverage/
+htmlcov/
+.coverage
