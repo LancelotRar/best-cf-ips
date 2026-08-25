@@ -13,8 +13,8 @@ jobs:
   star-history:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7.0.1
-      - uses: carsteneu/mystarhistory@v1.3.5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: carsteneu/mystarhistory@ec82d645a6df185f4d845b33691a6bcdd02f608a # v1.3.5
         with:
           repos: ${{ github.repository }}
           branch: ${{ github.ref_name }}
