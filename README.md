@@ -13,7 +13,7 @@
 
 - 为优选IP建立**国家区域、旗帜**标识，有助于按国家区域筛选CF节点。
 - 如使用 Mihomo 代理客户端，可按节点的国家区域建立策略组。并使用Url-test策略，仅在该区域内变动节点IP，缓解CF节点IP变动带来的负面影响。如 Telegram 新账号养号期，节点IP变动频繁、区域位置变动过大，或将引发账号风控。其它代理客户端同理，需自行设置。对其它有IP风控策略的互联网服务，亦有帮助。
-- [**自用Mihomo配置文件模板**](https://github.com/LancelotRar/free-subs/blob/main/src/liqun_example.yaml)（仅模板，不含订阅，已预设主流国家区域分组），不断优化最佳实践。可fork后自行修改。
+- [**自用Mihomo配置文件模板**](https://github.com/LancelotRar/free-subs/blob/main/src/liqun_example.yaml)（仅模板，不含订阅，已预设主流国家区域分组），不断优化最佳实践，可fork后自行修改，亦可直接使用。
 
 ## API内容**示例**
 
