@@ -83,7 +83,6 @@ https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-domain.tx
 ## 项目热度
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/LancelotRar/best-cf-ips/refs/heads/main/src/star-history-dark.svg">
-  <img src="https://raw.githubusercontent.com/LancelotRar/best-cf-ips/refs/heads/main/src/star-history-light.svg" alt="Star History">
+  <source media="(prefers-color-scheme: dark)" srcset="src/star-history-dark.svg">
+  <img src="src/star-history-light.svg" alt="Star History">
 </picture>
-
