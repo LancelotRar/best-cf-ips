@@ -61,6 +61,10 @@ https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ipv4.txt
 https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-domain.txt
 ```
 
+## API应用实例（公益订阅）
+
+- [利群便利店『频道』](https://t.me/liqunchannel)，查看置顶，体验API实际效果。仅供体验，不定期维护，滥用拉闸。
+
 ## 感谢以下个人或组织的公开的优选IP筛选数据
 
 - [bestcf](https://bestcf.pages.dev)
