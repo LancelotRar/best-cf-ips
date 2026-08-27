@@ -45,7 +45,6 @@
 ```
 https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ipv4.txt
 ```
----
 
 ## 优选域名API，可配合IP API共同使用。非即时更新，视使用体验少量更新。
 
