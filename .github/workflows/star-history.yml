@@ -3,7 +3,7 @@ name: Star History
 on:
   schedule:
     # 每 5 天一次，13:30 UTC+8 == 05:30 UTC（每月 1/6/11/16/21/26 日）
-    - cron: "30 5 */5 * *"
+    - cron: "30 5 */2 * *"
   workflow_dispatch:
 
 permissions:
