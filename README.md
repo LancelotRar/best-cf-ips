@@ -81,7 +81,6 @@ https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-domain.tx
 - [IPDB](https://ipdb.api.030101.xyz)
 - [VPS789](https://vps789.com/cfip/?remarks=ip)
 - [vvHan](https://cf.vvhan.com)
-- s5公益
 - Luoli
 
 ## 感谢以下开源项目
