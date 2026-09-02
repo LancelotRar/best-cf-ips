@@ -9,7 +9,7 @@
   <img src="src/IN-EDT.png" alt="效果图">
 </p>
 
-- [Cloudflare Anytls IP 机制须知](https://github.com/LancelotRar/best-cf-ips/issues/3#issuecomment-5508271687)    
+- [Cloudflare anycast IP 机制须知](https://github.com/LancelotRar/best-cf-ips/issues/3#issuecomment-5508271687)    
 
 ## 项目初衷
 
