@@ -37,7 +37,7 @@
 - 经代理客户端解析后，节点名称将显示**国家代码**以及**国旗**。
 
 <p align="center">
-  <img src="src/good-job.png" alt="效果图">
+  <img src="src/phone1.png" alt="效果图" width="150" height="240"><img src="src/phone2.png" alt="效果图" width="150" height="240"><img src="src/phone3.png" alt="效果图" width="150" height="240"><img src="src/PC1.png" alt="效果图" width="430" height="240">
 </p>
 
 ### IP API
@@ -51,7 +51,7 @@ https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ipv4.txt
 - 具体表现取决于使用者当地网络环境，仅供参考。
 
 <p align="center">
-  <img src="src/good-job2.png" alt="效果图">
+  <img src="src/PC2.png" alt="效果图" width="430" height="240">
 </p>
 
 ### DOMAIN API
