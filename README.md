@@ -9,6 +9,8 @@
   <img src="src/IN-EDT.png" alt="效果图">
 </p>
 
+- [Cloudflare Anytls IP 机制须知](https://github.com/LancelotRar/best-cf-ips/issues/3#issuecomment-5508271687)    
+
 ## 项目初衷
 
 - 为优选 IP 建立**国家区域、旗帜**标识，有助于按国家区域筛选 CF 节点。
@@ -62,10 +64,10 @@ https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-domain.tx
 
 ## API 教程演示
 
-- [Cloudflare 免费节点怎么提速？第二弹：新增2种方法筛选高速优选IP | 4K测速](https://www.youtube.com/watch?v=hdB7QhGprJk )
+- [Cloudflare 免费节点怎么提速？第二弹：新增2种方法筛选高速优选IP | 4K测速](https://www.youtube.com/watch?v=hdB7QhGprJk)
 - [只要3分钟！Cloudflare免费搭建永久节点，如何获取优选｜自动优选IP实测21万！白嫖节点｜一键订阅【豌豆分享】](https://www.youtube.com/watch?v=NOwpLkHPmao)
 - [网速直接起飞！5 种 Cloudflare 免费节点优选 IP 提取技巧，从脚本筛选到地区优选，彻底解决节点卡顿与延迟！](https://www.youtube.com/watch?v=hlD4ejZwBks)
-- [CloudFlare免费节点优化！5种方法降低延迟，100+节点测速，YouTube轻松跑11万+！](https://www.youtube.com/watch?v=KyqjoRivo2w&t=970s )
+- [CloudFlare免费节点优化！5种方法降低延迟，100+节点测速，YouTube轻松跑11万+！](https://www.youtube.com/watch?v=KyqjoRivo2w&t=970s)
 
 
 ## 感谢以下个人或组织的公开的优选IP筛选数据
