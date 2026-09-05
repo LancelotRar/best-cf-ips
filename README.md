@@ -9,7 +9,7 @@
 
 - 提供 “**优选 IP 聚合 API**”。
 - 提供 “**随机优选 API**”。
-- 两类优选 API ，IP 内容不同，数量不同，互不相属，可同时添加，实际效果同样出色。
+- 两类优选 API ，IP 内容不同，数量不同，互不相属，可同时使用。
 - 两类优选 API 均可接入 [cmliu/edgetunnel](https://github.com/cmliu/edgetunnel)-自定义订阅汇聚。
 
 <p align="center">
