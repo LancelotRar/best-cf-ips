@@ -1,15 +1,19 @@
-# best-cf-ips (ipv4)
+# best-cf-ips API (ipv4) 
 
-## 项目功能
+> 友情提示：优选域名 API 已迁移至新仓库 [best-cf-domains](https://github.com/LancelotRar/best-cf-domains)
 
-- 为多个公开或开源 Cloudflare 优选 IP 项目进行**聚合&去重&加国家区域标注&加旗帜**，每3小时更新。  
-- 可接入 [cmliu/edgetunnel](https://github.com/cmliu/edgetunnel)-自定义订阅汇聚。  
+## 项目说明
+
+- 提供 “**优选 IP 聚合 API**”：为多个公开或开源 Cloudflare 优选 IP 项目进行**聚合&去重&加国家区域标注&加旗帜**，每3小时更新。
+- 提供 “**CF 随机优选 API**”：提供3档 IP 数量不同的 API，满足期望“小而美”的用户，每3小时更新。
+- 两类 API IP 内容不同，数量不同，互不相属，实际效果同样出色。
+- 两类优选 API 均可接入 [cmliu/edgetunnel](https://github.com/cmliu/edgetunnel)-自定义订阅汇聚。  
 
 <p align="center">
   <img src="src/IN-EDT.png" alt="效果图">
 </p>
 
-- [Cloudflare anycast IP 机制须知](https://github.com/LancelotRar/best-cf-ips/issues/3#issuecomment-5508271687)    
+- [Cloudflare anycast IP 机制须知](https://github.com/LancelotRar/best-cf-ips/issues/3#issuecomment-5508271687) 
 
 ## 项目初衷
 
@@ -48,20 +52,6 @@
 https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ipv4.txt
 ```
 
-## 优选域名 API，可配合 IP API 共同使用。非即时更新，视使用体验少量更新。
-
-- 具体表现取决于使用者当地网络环境，仅供参考。点击图片查看清晰大图。
-
-<p align="center">
-  <img src="src/PC2.png" alt="效果图" width="430" height="240">
-</p>
-
-### DOMAIN API
-
-```
-https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-domain.txt
-```
-
 ## API 教程演示
 
 - [Cloudflare 免费节点怎么提速？第二弹：新增2种方法筛选高速优选IP | 4K测速](https://www.youtube.com/watch?v=hdB7QhGprJk)
@@ -69,7 +59,6 @@ https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-domain.tx
 - [网速直接起飞！5 种 Cloudflare 免费节点优选 IP 提取技巧，从脚本筛选到地区优选，彻底解决节点卡顿与延迟！](https://www.youtube.com/watch?v=hlD4ejZwBks)
 - [CloudFlare免费节点优化！5种方法降低延迟，100+节点测速，YouTube轻松跑11万+！](https://www.youtube.com/watch?v=KyqjoRivo2w&t=970s)
 - [【免费VPN】最全 Cloudflare 节点提速方法 | 高速优选IP | 支持ChatGPT/Gemini](https://www.youtube.com/watch?v=O6h3CLAUyiE)
-
 
 ## 感谢以下个人或组织的公开的优选IP筛选数据
 
