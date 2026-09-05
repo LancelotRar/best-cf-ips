@@ -1,6 +1,7 @@
 # best-cf-ips API (ipv4) 
 
-> 友情提示：优选域名 API 已迁移至新仓库 [best-cf-domains](https://github.com/LancelotRar/best-cf-domains)
+> [!IMPORTANT]
+> **友情提示：优选域名 API 已迁移至新仓库 [best-cf-domains](https://github.com/LancelotRar/best-cf-domains)**
 
 ## 项目说明
 
