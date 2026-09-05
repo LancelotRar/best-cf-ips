@@ -54,6 +54,8 @@ https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ipv4.txt
   <img src="src/phone1.png" alt="效果图" width="150" height="240"><img src="src/phone2.png" alt="效果图" width="150" height="240"><img src="src/phone3.png" alt="效果图" width="150" height="240"><img src="src/PC1.png" alt="效果图" width="430" height="240">
 </p>
 
+---
+
 ### 随机优选 API
 
 - 每 3 小时更新。
@@ -90,6 +92,8 @@ https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-
 <p align="center">
   <img src="src/PC3.png" alt="效果图">
 </p>
+
+---
 
 ## API 教程演示
 
