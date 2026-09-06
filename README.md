@@ -59,7 +59,7 @@ https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ipv4.txt
 ### 随机优选 API
 
 - 每 3 小时更新。
-- **无国家区域、旗帜标注。**
+- **有国家区域、旗帜标注。**
 - official-cf-ipv4-random50 包含 50 个随机优选 IP。
 - official-cf-ipv4-random100 包含 100 个随机优选 IP，包含 official-cf-ipv4-random50 。
 - official-cf-ipv4-random200 包含 200 个随机优选 IP，包含 official-cf-ipv4-random100 。
@@ -77,21 +77,15 @@ https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-
 - 内容示例
 ```txt
 # 50 cfip updated at 2026-09-06 00:57
-104.16.212.177:2053#随机优选
-104.19.183.233:2083#随机优选
-104.20.55.114:443#随机优选
-104.27.24.125:2053#随机优选
-104.25.217.74:8443#随机优选
-172.66.2.101:8443#随机优选
-104.16.84.125:2087#随机优选
-104.19.53.201:2053#随机优选
+162.159.44.202:443#JP 🇯🇵
+104.18.44.122:443#SG 🇸🇬
+104.17.153.177:443#US 🇺🇸
+172.64.151.183:443#SG 🇸🇬
+162.159.24.27:443#SG 🇸🇬
+104.18.38.13:443#SG 🇸🇬
 ···
 ```
-- 经代理客户端解析后，节点名称将显示**随机优选**。点击图片查看清晰大图。
-
-<p align="center">
-  <img src="src/PC3.png" alt="效果图">
-</p>
+- 经代理客户端解析后，节点名称将同样显示**国家代码**以及**国旗**。与聚合 API 显示效果一致。
 
 ---
 
