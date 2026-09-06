@@ -51,7 +51,7 @@ https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ipv4.txt
 - 经代理客户端解析后，节点名称将显示**国家代码**以及**国旗**。点击图片查看清晰大图。
 
 <p align="center">
-  <img src="src/phone1.png" alt="效果图" width="150" height="240"><img src="src/phone2.png" alt="效果图" width="150" height="240"><img src="src/phone3.png" alt="效果图" width="150" height="240"><img src="src/PC1.png" alt="效果图" width="430" height="240">
+  <img src="src/phone1.png" alt="效果图" width="150" height="240"><img src="src/phone2.png" alt="效果图" width="150" height="240"><img src="src/phone3.png" alt="效果图" width="150" height="240"><img src="src/PC.png" alt="效果图" width="430" height="240">
 </p>
 
 ### 随机优选 API
