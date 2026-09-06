@@ -1,6 +1,6 @@
 # Cloudflare 优选IP API（IPV4）
 
-## 提供自动更新的 Cloudflare 优选 IP API，服务于 Cloudflare 免费代理搭建方案，优质 IP 即为优质节点。亦可用于 VPS 加速。
+## 提供自动更新的 Cloudflare 优选 IP API，服务于 Cloudflare 免费代理搭建方案，优质 IP 即为优质节点。
 
 > [!IMPORTANT]
 > **友情提示：优选域名 API 已迁移至新仓库 [best-cf-domains](https://github.com/LancelotRar/best-cf-domains)**，请尽快更换 API。
