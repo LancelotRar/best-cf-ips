@@ -112,11 +112,6 @@ https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-
 - [vvHan](https://cf.vvhan.com)
 - Luoli
 
-## 感谢以下开源项目
-
-- [wp-statistics/GeoLite2-City](https://github.com/wp-statistics/GeoLite2-City) - 提供每周自动更新的 GeoLite2-City MMDB 数据库镜像。
-- [MaxMind GeoLite2](https://www.maxmind.com) - IP 区域位置数据库原始数据提供方。
-
 ## 项目热度
 
 <picture>
