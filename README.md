@@ -56,11 +56,12 @@ https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ipv4.txt
 
 ### 随机优选 API
 
-- 每 3 小时更新。
+- 每 3 小时更新，按延迟排序。
 - **有国家区域、旗帜标注。**
 - official-cf-ipv4-random50 包含 50 个随机优选 IP。
 - official-cf-ipv4-random100 包含 100 个随机优选 IP，包含 official-cf-ipv4-random50 。
 - official-cf-ipv4-random200 包含 200 个随机优选 IP，包含 official-cf-ipv4-random100 。
+- official-cf-ipv4-random400 包含 400 个随机优选 IP，包含 official-cf-ipv4-random200 。
 - 选一档即可，多选重复，没有必要。
 
 ```
@@ -71,6 +72,9 @@ https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-
 ```
 ```
 https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-random200.txt
+```
+```
+https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-random400.txt
 ```
 - 内容示例
 ```txt
