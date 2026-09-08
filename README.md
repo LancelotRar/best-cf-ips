@@ -10,13 +10,13 @@
 - 提供 “**优选 IP 聚合 API**”。
 - 提供 “**随机优选 API**”。
 - 两类优选 API ，IP 内容不同，数量不同，互不相属，可同时使用。
-- 两类优选 API 均可接入 [cmliu/edgetunnel](https://github.com/cmliu/edgetunnel)-自定义订阅汇聚。
+- 两类优选 API 均可接入 [**cmliu/edgetunnel**](https://github.com/cmliu/edgetunnel)-自定义订阅汇聚。
 
 <p align="center">
   <img src="src/IN-EDT.png" alt="效果图">
 </p>
 
-- [Cloudflare anycast IP 机制须知](https://github.com/LancelotRar/best-cf-ips/issues/3#issuecomment-5508271687) 
+- [**Cloudflare anycast IP 机制须知**](https://github.com/LancelotRar/best-cf-ips/issues/3#issuecomment-5508271687) 
 
 ## 项目初衷
 
@@ -31,7 +31,7 @@
 
 ### 聚合 API
 
-- 每 3 小时更新。
+- **每 3 小时更新**。
 - 为多个公开或开源 Cloudflare 优选 IP 项目进行**聚合&去重&加国家区域标注&加旗帜**
 ```
 https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ipv4.txt
@@ -56,14 +56,18 @@ https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ipv4.txt
 
 ### 随机优选 API
 
-- 每 3 小时更新，按延迟排序。
+- **每 3 小时更新，按延迟排序**。
 - **有国家区域、旗帜标注。**
-- official-cf-ipv4-random50 包含 50 个随机优选 IP。
+- official-cf-ipv4-random20 包含 20 个随机优选 IP。
+- official-cf-ipv4-random50 包含 50 个随机优选 IP，包含 official-cf-ipv4-random20 。
 - official-cf-ipv4-random100 包含 100 个随机优选 IP，包含 official-cf-ipv4-random50 。
 - official-cf-ipv4-random200 包含 200 个随机优选 IP，包含 official-cf-ipv4-random100 。
 - official-cf-ipv4-random400 包含 400 个随机优选 IP，包含 official-cf-ipv4-random200 。
-- 选一档即可，多选重复，没有必要。
+- **选一档即可，多选重复，没有必要**。
 
+```
+https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-random20.txt
+```
 ```
 https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-random50.txt
 ```
