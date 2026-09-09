@@ -105,16 +105,11 @@ https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-
 
 ## 感谢以下个人或组织的公开的优选IP筛选数据
 
-- [bestcf](https://bestcf.pages.dev)
-- [WeTest](https://www.wetest.vip/page/cloudfront/address_v4.html)
+- [WeTest](https://www.wetest.vip)
 - [UOUIN](https://api.uouin.com/cloudflare.html)
-- Tiancheng
-- [Mia](https://t.me/MiaChatChannel)
-- [Gslege](https://github.com/gslege/CloudflareIP)
 - [IPDB](https://ipdb.api.030101.xyz)
 - [VPS789](https://vps789.com/cfip/?remarks=ip)
 - [vvHan](https://cf.vvhan.com)
-- Luoli
 
 ## 项目热度
 
