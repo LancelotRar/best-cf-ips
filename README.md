@@ -7,16 +7,16 @@
 
 ## 项目说明
 
-- 提供 “**优选 IP 聚合 API**”。
-- 提供 “**随机优选 API**”。
-- 两类优选 API ，IP 内容不同，数量不同，互不相属，可同时使用。
-- 两类优选 API 均可接入 [**cmliu/edgetunnel**](https://github.com/cmliu/edgetunnel)-自定义订阅汇聚，从而将优选 IP 转换为代理节点。
+- 提供 “**采集聚合 优选IP API**”。
+- 提供 “**本仓独立 优选IP API**”。
+- 两类优选 IP API ，IP 内容不同，数量不同，互不相属，可同时使用。
+- 两类优选 IP API 均可接入 [**cmliu/edgetunnel**](https://github.com/cmliu/edgetunnel)-自定义订阅汇聚，从而将优选 IP 转换为代理节点。
 
 <p align="center">
   <img src="src/IN-EDT.png" alt="效果图">
 </p>
 
-- [**Cloudflare anycast IP 机制须知**](https://github.com/LancelotRar/best-cf-ips/issues/3#issuecomment-5508271687) 
+- [**Cloudflare anycast IP 机制须知**](https://github.com/LancelotRar/best-cf-ips/issues/3#issuecomment-5508271687) ，不同运营商解析出的国家区域**可能不同**。
 
 ## 项目初衷
 
@@ -54,31 +54,31 @@ https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ipv4.txt
   <img src="src/phone1.png" alt="效果图" width="150" height="240"><img src="src/phone2.png" alt="效果图" width="150" height="240"><img src="src/phone3.png" alt="效果图" width="150" height="240"><img src="src/PC.png" alt="效果图" width="430" height="240">
 </p>
 
-### 随机优选 API
+### 独立 API
 
 - **每 3 小时更新，按延迟排序**。
 - **有国家区域、旗帜标注。**
-- official-cf-ipv4-random20 包含 20 个随机优选 IP。
-- official-cf-ipv4-random50 包含 50 个随机优选 IP，包含 official-cf-ipv4-random20 。
-- official-cf-ipv4-random100 包含 100 个随机优选 IP，包含 official-cf-ipv4-random50 。
-- official-cf-ipv4-random200 包含 200 个随机优选 IP，包含 official-cf-ipv4-random100 。
-- official-cf-ipv4-random400 包含 400 个随机优选 IP，包含 official-cf-ipv4-random200 。
+- official-cf-ipv4-top20 包含 20 个随机优选 IP。
+- official-cf-ipv4-top50 包含 50 个随机优选 IP，包含 official-cf-ipv4-top20 。
+- official-cf-ipv4-top100 包含 100 个随机优选 IP，包含 official-cf-ipv4-top50 。
+- official-cf-ipv4-top200 包含 200 个随机优选 IP，包含 official-cf-ipv4-top100 。
+- official-cf-ipv4-top400 包含 400 个随机优选 IP，包含 official-cf-ipv4-top200 。
 - **选一档即可，多选重复，没有必要**。
 
 ```
-https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-random20.txt
+https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-top20.txt
 ```
 ```
-https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-random50.txt
+https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-top50.txt
 ```
 ```
-https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-random100.txt
+https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-top100.txt
 ```
 ```
-https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-random200.txt
+https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-top200.txt
 ```
 ```
-https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-random400.txt
+https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-top400.txt
 ```
 - 内容示例
 ```txt
