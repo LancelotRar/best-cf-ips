@@ -1,9 +1,15 @@
-# Cloudflare 优选IP API（IPV4）
+# Cloudflare 优选IP API（仅IPV4）
 
 ## 提供自动更新的 Cloudflare 优选 IP API，服务于 Cloudflare 免费代理搭建方案，优质 IP 即为优质节点。
 
-> [!IMPORTANT]
-> **友情提示：优选域名 API 已迁移至新仓库 [best-cf-domains](https://github.com/LancelotRar/best-cf-domains)**，请尽快更换 API。
+> [!IMPORTANT]  
+> **友情提示：优选域名 API 已迁移至新仓库 [best-cf-domains](https://github.com/LancelotRar/best-cf-domains)**，请尽快使用新仓库的 API 链接。
+
+> [!IMPORTANT]  
+> **更新历史**：  
+> 2026.9.11（**破坏性更新**，请尽快使用新 API 链接）  
+> 1. 聚合 API 文件名变更为：best-cf-ip-collected.txt 
+> 2. 独立 API 文件名变更为：best-cf-ip-scanned-top**.txt
 
 ## 项目说明
 
@@ -34,11 +40,11 @@
 - **每 3 小时更新**。
 - 为多个公开或开源 Cloudflare 优选 IP 项目进行**聚合&去重&加国家区域标注&加旗帜**
 ```
-https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ipv4.txt
+https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ip-collected.txt
 ```
 - 内容示例
 ```txt
-# 295 bestips updated at 2026-08-01 20:47
+# 91 best ips collected at 2026-09-11 00:42
 104.17.212.191:443#US 🇺🇸
 23.175.201.2:8443#HK 🇭🇰
 158.180.69.78:443#KR 🇰🇷
@@ -58,31 +64,31 @@ https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ipv4.txt
 
 - **每 3 小时更新，按延迟排序**。
 - **有国家区域、旗帜标注。**
-- official-cf-ipv4-top20 包含 20 个随机优选 IP。
-- official-cf-ipv4-top50 包含 50 个随机优选 IP，包含 official-cf-ipv4-top20 。
-- official-cf-ipv4-top100 包含 100 个随机优选 IP，包含 official-cf-ipv4-top50 。
-- official-cf-ipv4-top200 包含 200 个随机优选 IP，包含 official-cf-ipv4-top100 。
-- official-cf-ipv4-top400 包含 400 个随机优选 IP，包含 official-cf-ipv4-top200 。
-- **选一档即可，多选重复，没有必要**。
+- best-cf-ip-scanned-top20 包含 20 个优选 IP。
+- best-cf-ip-scanned-top50 包含 50 个优选 IP，包含 best-cf-ip-scanned-top20 。
+- best-cf-ip-scanned-top100 包含 100 个优选 IP，包含 best-cf-ip-scanned-top50 。
+- best-cf-ip-scanned-top200 包含 200 个优选 IP，包含 best-cf-ip-scanned-top100 。
+- best-cf-ip-scanned-top400 包含 400 个优选 IP，包含 best-cf-ip-scanned-top200 。
+- **选任一档即可，多选重复，没有必要**。
 
 ```
-https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-top20.txt
+https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ip-scanned-top20.txt
 ```
 ```
-https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-top50.txt
+https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ip-scanned-top50.txt
 ```
 ```
-https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-top100.txt
+https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ip-scanned-top100.txt
 ```
 ```
-https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-top200.txt
+https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ip-scanned-top200.txt
 ```
 ```
-https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/official-cf-ipv4-top400.txt
+https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ip-scanned-top400.txt
 ```
 - 内容示例
 ```txt
-# 50 cfip updated at 2026-09-06 00:57
+# 50 best cf ips scanned at 2026-09-11 03:39
 162.159.44.202:443#JP 🇯🇵
 104.18.44.122:443#SG 🇸🇬
 104.17.153.177:443#US 🇺🇸
