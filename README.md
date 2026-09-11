@@ -8,8 +8,8 @@
 > [!IMPORTANT]  
 > **更新历史**：  
 > 2026.9.11（**破坏性更新**，请尽快使用新 API 链接）  
-> 1. 聚合 API 文件名变更为：best-cf-ip-collected.txt 
-> 2. 独立 API 文件名变更为：best-cf-ip-scanned-top**.txt
+> - 聚合 API 文件名变更为：best-cf-ip-collected.txt 
+> - 独立 API 文件名变更为：best-cf-ip-scanned-top**.txt
 
 ## 项目说明
 
