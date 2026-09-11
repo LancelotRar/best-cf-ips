@@ -111,11 +111,11 @@ https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ip-scanne
 
 ## 感谢以下个人或组织的公开的优选IP筛选数据
 
+- [Cmliu优选](https://cf.090227.xyz)
 - [WeTest](https://www.wetest.vip)
 - [UOUIN](https://api.uouin.com/cloudflare.html)
 - [IPDB](https://ipdb.api.030101.xyz)
 - [VPS789](https://vps789.com/cfip/?remarks=ip)
-- [vvHan](https://cf.vvhan.com)
 
 ## 项目热度
 
