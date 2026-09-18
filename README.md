@@ -83,7 +83,7 @@ https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ip-collec
 ### 独立 API
 
 - **每 3 小时更新，按延迟排序**。
-- **有国家区域、旗帜标注。**
+- **国家区域、旗帜标注。**
 - **选任一档即可，多选重复，没有必要**。
 
 1. best-cf-ip-scanned-top20 包含 20 个优选 IP。
