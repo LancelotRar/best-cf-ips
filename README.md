@@ -68,13 +68,7 @@
 ### 聚合 API
 
 - **每 3 小时更新**。
-- 为多个公开或开源 Cloudflare 优选 IP 项目进行**聚合&去重&加国家区域标注&加旗帜**
-- 优选 IP 数据，来源于以下个人或组织，在此表示感谢！
-  - [Cmliu优选](https://cf.090227.xyz)
-  - [WeTest](https://www.wetest.vip)
-  - [UOUIN](https://api.uouin.com/cloudflare.html)
-  - [IPDB](https://ipdb.api.030101.xyz)
-  - [VPS789](https://vps789.com/cfip/?remarks=ip)
+- 为多个公开的 Cloudflare 优选 IP 项目进行**IP 聚合&去重&加国家区域标注&加旗帜**，数据来源：[Cmliu优选](https://cf.090227.xyz)，[WeTest](https://www.wetest.vip)，[UOUIN](https://api.uouin.com/cloudflare.html)，[IPDB](https://ipdb.api.030101.xyz)，[VPS789](https://vps789.com/cfip/?remarks=ip)，表示感谢！
 
 ```
 https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ip-collected.txt
