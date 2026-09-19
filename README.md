@@ -27,9 +27,8 @@
 - 提供 “**采集聚合 优选IP API**”。
 - 提供 “**本仓独立 优选IP API**”。
 - 两类优选 IP API ，IP 内容不同，数量不同，互不相属，可同时使用。
-- 两类优选 IP API 均可接入 [**Cmliu/edgetunnel**](https://github.com/cmliu/edgetunnel)-自定义订阅汇聚，从而将优选 IP 转换为代理节点。
+- 两类优选 IP API 均可接入 [**Cmliu/edgetunnel**](https://github.com/cmliu/edgetunnel)-自定义订阅汇聚，从而将优选 IP 转换为代理节点。建议具备一定 [**Cmliu/edgetunnel**](https://github.com/cmliu/edgetunnel) 项目基础的人使用。
 - 建议具备一定 Cloudflare 基础网络知识的人使用。[**Cloudflare anycast IP 机制**](https://github.com/LancelotRar/best-cf-ips/issues/3#issuecomment-5508271687) ，不同运营商解析出的国家区域**可能不同**。
-- 建议具备一定 [**Cmliu/edgetunnel**](https://github.com/cmliu/edgetunnel) 项目基础的人使用。
 
 <p align="center">
   <img src="src/IN-EDT.png" alt="效果图">
