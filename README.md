@@ -1,6 +1,6 @@
 # Cloudflare 优选IP API（仅IPV4）
 
-## 提供自动更新的 Cloudflare 优选 IP API，服务于 Cloudflare 免费代理搭建方案，优质 IP 即为优质节点。[频道](https://t.me/liqunchannel) 置顶公益订阅，限时体验 api 效果。
+## 提供自动更新的 Cloudflare 优选 IP API，服务于 Cloudflare 免费代理搭建方案，优质 IP 即为优质节点。[频道](https://t.me/liqunchannel) 置顶公益订阅，限时体验 API 效果。
 
 <p align="center">
 <img src="https://badgen.net/github/stars/LancelotRar/best-cf-ips" align="absmiddle" style="height:25px"> <img src="https://badgen.net/github/forks/LancelotRar/best-cf-ips" align="absmiddle" style="height:25px"> <a href="https://t.me/liqunchannel"><img src="https://badgen.net/badge/利群便利店/频道" align="absmiddle" style="height:25px"></a>
