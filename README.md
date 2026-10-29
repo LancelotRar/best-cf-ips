@@ -12,11 +12,11 @@
 > **破坏性更新历史，需尽快更新您的 API 链接**：    
 > 2026.10.29  
 > - 因上游优选 IP 项目产出不稳定，故取消 **采集聚合 优选IP API**  
-
+>   
 > 2026.9.11  
 > - 聚合 API 文件名变更为：best-cf-ip-collected.txt   
 > - 独立 API 文件名变更为：best-cf-ip-scanned-top**.txt  
->  
+>   
 > 2026.9.5  
 > - 优选域名 API 已迁移至新仓库 [**best-cf-domains**](https://github.com/LancelotRar/best-cf-domains)
 
