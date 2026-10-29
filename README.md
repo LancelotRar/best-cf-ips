@@ -10,10 +10,13 @@
 
 > [!CAUTION]   
 > **破坏性更新历史，需尽快更新您的 API 链接**：    
+> 2026.10.29  
+> - 因上游优选 IP 项目产出不稳定，故取消 **采集聚合 优选IP API**  
+
 > 2026.9.11  
 > - 聚合 API 文件名变更为：best-cf-ip-collected.txt   
 > - 独立 API 文件名变更为：best-cf-ip-scanned-top**.txt  
->
+>  
 > 2026.9.5  
 > - 优选域名 API 已迁移至新仓库 [**best-cf-domains**](https://github.com/LancelotRar/best-cf-domains)
 
@@ -41,13 +44,10 @@
 
 ## 项目说明
 
-- 提供 “**采集聚合 优选IP API**”
-- 提供 “**本仓独立 优选IP API**”
-- 两类优选 IP API ，IP 内容不同，数量不同，互不相属，可同时使用
-- 两类优选 IP API 均可接入 [**Cmliu/edgetunnel**](https://github.com/cmliu/edgetunnel)-"自定义订阅汇聚"，和 [**byJoey/cfnew**](https://github.com/byJoey/cfnew) -"优选 IP 来源 URL"，从而将优选 IP 转换为代理节点。建议具备相应项目基础的用户使用
+- 提供 “**电信线路 优选IP API**”，一次填入，自动更新，**以延迟排序，按数量分档**，满足不同需求。
+- 优选 IP API 可接入 [**Cmliu/edgetunnel**](https://github.com/cmliu/edgetunnel)-"自定义订阅汇聚"，和 [**byJoey/cfnew**](https://github.com/byJoey/cfnew) -"优选 IP 来源 URL"，从而将优选 IP 转换为代理节点。建议具备相应项目基础的用户使用
 - 建议具备一定 Cloudflare 基础网络知识的用户使用。[**Cloudflare anycast IP 机制**](https://github.com/LancelotRar/best-cf-ips/issues/3#issuecomment-5508271687) ，不同运营商解析出的国家区域**可能不同**
 - 为优选 IP 建立**国家区域、旗帜**标识，有助于按国家区域筛选 CF 节点。如使用 Mihomo 代理客户端，可按节点的国家区域建立策略组。并使用 Url-test 策略，仅在该区域内变动节点IP，缓解 CF 节点 IP 变动带来的负面影响。如 Telegram 新账号养号期，节点IP变动频繁、区域位置变动过大，或将引发账号风控。其它代理客户端同理，需自行设置。对其它有IP风控策略的互联网服务，亦有帮助
-- 优选 IP 数量不是越多越好，故另提供**按数量分档**的 API 满足多样化的需求
 - [**自用 Mihomo 配置文件模板**](https://github.com/LancelotRar/free-subs/blob/main/src/liqun_example.yaml)（仅模板，非订阅，已预设主流国家区域分组），杜绝 DNS 泄露，可 fork 后自行修改，亦可直接使用
 - 如有帮助，请多多star
 
@@ -87,19 +87,7 @@
 203.69.11.79:443#TW 🇹🇼
 ···
 ```
-- 优选 IP 更新时间以实际结果为准，在 API 内容**第一行**有明确标注
-
-### 聚合 API
-
-- **每 6 小时更新**
-- 聚合多个公开的 Cloudflare 优选 IP 项目，进行**聚合&去重&加国家区域标注&加旗帜**，数据来源：[Cmliu优选](https://cf.090227.xyz)，[UOUIN](https://api.uouin.com/cloudflare.html)，[IPDB](https://ipdb.api.030101.xyz)，[VPS789](https://vps789.com/cfip/?remarks=ip)，[Senflare](https://saas.seeck.cn)，表示感谢
-
-```
-https://raw.githubusercontent.com/LancelotRar/best-cf-ips/main/best-cf-ip-collected.txt
-```
-
-### 独立 API
-
+- 更新时间以实际结果为准，在 API 内容**第一行**有明确标注
 - **每 6 小时更新，按延迟排序**
 - **国家区域、旗帜标注**
 - **选任一档即可，多选重复，没有必要**  
