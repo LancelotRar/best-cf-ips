@@ -21,12 +21,6 @@
 > - 优选域名 API 已迁移至新仓库 [**best-cf-domains**](https://github.com/LancelotRar/best-cf-domains)
 
 > [!NOTE]   
-> **中转站邀请注册链接，可白嫖大模型，注册互有奖励**：  
-> - ~~https://api.justwoker.icu/register?aff=Sp57~~
-> - https://agentrouter.org/register?aff=R6aO
-> - https://chat.b.ai/chat?invite_code=65TF6G
-> - https://y-api.bestvirtualgoods.com/i/7N5KJG8Y
->  
 > **Workbuddy 国际版，注册即得 100 邀请积分和 250 新人积分**
 > - https://workbuddy.ai/invite?code=7CQMESPP
 >
