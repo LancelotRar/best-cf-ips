@@ -23,10 +23,6 @@
 > [!NOTE]   
 > **Workbuddy 国际版，注册即得 100 邀请积分和 250 新人积分**
 > - https://workbuddy.ai/invite?code=7CQMESPP
->
-> **注册 Muse AI，在加入后的 48 小时内通过“设置”兑现我的邀请码（ 1SU6DJ ），我们就能分别获得 10 亿个 Muse 词元**
-> - https://muse.ai/join
-> - 解决 [“加入等候名单”](https://t.me/liqunchannel/1350)
 
 ## 应用效果
 
