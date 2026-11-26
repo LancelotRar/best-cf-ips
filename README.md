@@ -1,6 +1,6 @@
 <div align="center">
 
-# Cloudflare 优选IP API（IPV4）
+# Cloudflare 优选 IP API（电信 IPV4）
 
 ### 提供自动更新的 Cloudflare 优选 IP API，服务于 Cloudflare 免费代理搭建方案，优质 IP 即为优质节点
 
