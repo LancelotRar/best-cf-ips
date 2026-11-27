@@ -2,7 +2,7 @@
 
 # Cloudflare 优选 IP API（电信 IPV4）
 
-### 提供自动更新的 Cloudflare 优选 IP API，服务于 Cloudflare 免费代理搭建方案，优质 IP 即为优质节点
+### 提供自动更新的 Cloudflare 优选 IP API，并添加**国家代码**与**国旗**，服务于 Cloudflare 免费代理搭建方案，优质 IP 即为优质节点
 
 <img src="https://badgen.net/github/stars/LancelotRar/best-cf-ips" align="absmiddle" style="height:20px"> <img src="https://badgen.net/github/forks/LancelotRar/best-cf-ips" align="absmiddle" style="height:20px"> <a href="https://t.me/liqunchannel"><img src="https://badgen.net/badge/利群便利店/频道" align="absmiddle" style="height:20px"></a>
 
